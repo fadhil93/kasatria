@@ -1,3 +1,4 @@
+
 <html>
 	<head>
 		<title>three.js css3d - periodic table</title>
@@ -81,17 +82,14 @@
 	</head>
 	<body>
 
-<<<<<<< Updated upstream
-		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div>
-=======
 		<!-- <div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div> -->
->>>>>>> Stashed changes
 		<div id="container"></div>
 		<div id="menu">
 			<button id="table">TABLE</button>
 			<button id="sphere">SPHERE</button>
 			<button id="helix">HELIX</button>
 			<button id="grid">GRID</button>
+			<button id="pyramid">PYRAMID</button>
 		</div>
 
 		<script type="module">
@@ -227,7 +225,7 @@
 			var controls;
 
 			var objects = [];
-			var targets = { table: [], sphere: [], helix: [], grid: [] };
+			var targets = { table: [], sphere: [], helix: [], grid: [], pyramid: [] };
 
 			init();
 			animate();
@@ -250,7 +248,7 @@ if(table[i+1]=="Male")
 
 {
 
-					element.style.backgroundColor = 'rgb(61,83,219)'; //biru
+					element.style.backgroundColor = 'rgba(0,127,127)'; //biru
 
 }
 else
@@ -305,7 +303,7 @@ else
 
 					object.position.setFromSphericalCoords( 800, phi, theta );
 
-					vector.copy( object.position ).multiplyScalar( 2 );
+					vector.copy( object.position ).multiplyScalar(2);
 
 					object.lookAt( vector );
 
@@ -324,7 +322,7 @@ else
 
 					var object = new THREE.Object3D();
 
-					object.position.setFromCylindricalCoords( 900, theta, y );
+					object.position.setFromCylindricalCoords( 800, theta, y );
 
 					vector.x = object.position.x * 2;
 					vector.y = object.position.y;
@@ -349,6 +347,35 @@ else
 					targets.grid.push( object );
 
 				}
+				
+
+				// pyramid
+	
+			
+
+				var vector = new THREE.Vector3();
+
+
+				for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+					var phi = Math.acos( - 1 + ( 2 * i ) / l );
+					var theta = i *5 + Math.PI;
+
+					var object = new THREE.Object3D();
+
+					object.position.setFromSphericalCoords(1000, 0.6*phi,3*theta);
+
+
+					vector.x = object.position.x*0.5;
+					vector.y = object.position.y;
+					vector.z = object.position.z*2;
+					
+					object.lookAt( vector );
+
+				targets.pyramid.push( object );
+
+				}
+
 
 				//
 
@@ -388,6 +415,13 @@ else
 				button.addEventListener( 'click', function () {
 
 					transform( targets.grid, 2000 );
+
+				}, false );
+
+				var button = document.getElementById( 'pyramid' );
+				button.addEventListener( 'click', function () {
+
+					transform( targets.pyramid, 2000 );
 
 				}, false );
 
