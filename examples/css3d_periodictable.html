@@ -353,28 +353,48 @@ else
 	
 			
 
+				// pyramid 
+	
+			
+
 				var vector = new THREE.Vector3();
+				var axis = new THREE.Vector3(0, 1, 0);
+  				var lookAt = new THREE.Vector3();
+  				var localLookAt = new THREE.Vector3();
+  // sides
+  				var itemH = 140;
+  				var itemW = 230;
+  				var startH = itemH * 2;
 
+  				for (let sides = 0; sides < 4; sides++){
+  				let angle = Math.PI * 0.5 * sides;
+  				let firstItem = 2;
+    				
+				lookAt.set(0, 1, 1).normalize().applyAxisAngle(axis, angle);
 
-				for ( var i = 0, l = objects.length; i < l; i ++ ) {
+   				 for (let rows = 0; rows < 5; rows++){
+    	
+    				  let items = firstItem + (rows * 2) // arithmetic progression
+    	
+    				  let h = startH - rows * itemH;
+      				  let w = -((items - 1) / 2) * itemW;
+    	
+    				  for (let item = 0; item < items; item++){
+      				let object = new THREE.Object3D();
+         
+			 object.position.set(w + item * itemW,h,(rows + 1) * itemW);
+	
+        	 	 object.position.applyAxisAngle(axis, angle);
 
-					var phi = Math.acos( - 1 + ( 2 * i ) / l );
-					var theta = i *5 + Math.PI;
+		         object.lookAt(localLookAt.addVectors(object.position, lookAt));
 
-					var object = new THREE.Object3D();
+//
 
-					object.position.setFromSphericalCoords(1000, 0.6*phi,3*theta);
-
-
-					vector.x = object.position.x*0.5;
-					vector.y = object.position.y;
-					vector.z = object.position.z*2;
-					
-					object.lookAt( vector );
-
-				targets.pyramid.push( object );
+		         targets.pyramid.push(object);
 
 				}
+}
+}
 
 
 				//
